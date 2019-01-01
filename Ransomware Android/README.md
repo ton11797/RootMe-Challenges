@@ -163,4 +163,4 @@ First, in the constructor of the class a IV (which is an 16 zeros according to *
 After we got the key and IV, we can decrypt the file. Fortunately, the **decrypt** function exists.<br>
 So after copying the class to a new Java project, creating an instance (with "mcsTnTld1dDn") and running the **decrypt** function, it seems like an image was created.
 
-In the end, the flag is **BullShitR4ns0mW4re**
+In the end, the flag is **BullShitR4ns0mW4re**. Cool challenge which worths 35 points.
