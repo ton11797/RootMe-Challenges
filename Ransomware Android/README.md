@@ -1,4 +1,4 @@
-# Ransomware Android
+<b>.MainService</b># Ransomware Android
 https://www.root-me.org/en/Challenges/Forensic/Ransomware-Android
 ```
 The CISO Android tablet has been compromised by a ransomware, his confidential documents were encrypted. It is, of course, no question for us to pay the ransom, we would lose all our credibility. 
@@ -64,3 +64,18 @@ The <b>.ServiceStarter</b> and the <b>.SDCardServiceStarter</b> services are pre
 The <b>org.torproject.android.service.TorService</b> is a known library. As the name implies, the service is used to communicate with a remote entity (in this APK the entity is 127.0.0.1:9050).<br><br>
 
 So that leaves the <b>.MainService</b>.<br>
+This service does bunch of stuff - communicate with a remote entity using TOR proxy, sets a _WakeLock_, schedule tasks and more. Because the APK is a ransomware, and because the challenge is to find an encrypted password, the following class seems interesting:<br>
+```java
+class C01165 implements Runnable {
+    C01165() {
+    }
+
+    public void run() {
+        try {
+            new FilesEncryptor(MainService.this.context).encrypt();
+        } catch (Exception e) {
+            Log.d(Constants.DEBUG_TAG, "Error: " + e.getMessage());
+        }
+    }
+}
+```
