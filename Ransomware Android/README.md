@@ -57,10 +57,8 @@ According to the manifest, there are 4 enabled services and 1 activity:
   <li><b>org.torproject.android.service.TorService</b>, which recieves intents from a TOR service.</li>
 </ol><br>
 
-The <b>.Main</b> activity seems to display something (not important), and it sends an intent (com.locker.MainServiceStart) to start the <b>.MainService</b>.<br><br>
-
-The <b>.ServiceStarter</b> and the <b>.SDCardServiceStarter</b> services are pretty much the same - both send an intent (com.locker.MainServiceStart) to start the <b>.MainService</b>. Probably in order to keep the persistence of the ransomware after a reboot.<br><br>
-
+The <b>.Main</b> activity seems to display something (not important), and it sends an intent (com.locker.MainServiceStart) to start the <b>.MainService</b>.<br>
+The <b>.ServiceStarter</b> and the <b>.SDCardServiceStarter</b> services are pretty much the same - both send an intent (com.locker.MainServiceStart) to start the <b>.MainService</b>. Probably in order to keep the persistence of the ransomware after a reboot.<br>
 The <b>org.torproject.android.service.TorService</b> is a known library. As the name implies, the service is used to communicate with a remote entity (in this APK the entity is 127.0.0.1:9050).<br><br>
 
 So that leaves the <b>.MainService</b>.<br>
