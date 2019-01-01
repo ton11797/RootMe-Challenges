@@ -1,4 +1,4 @@
-<b>.MainService</b># Ransomware Android
+# Ransomware Android
 https://www.root-me.org/en/Challenges/Forensic/Ransomware-Android
 ```
 The CISO Android tablet has been compromised by a ransomware, his confidential documents were encrypted. It is, of course, no question for us to pay the ransom, we would lose all our credibility. 
