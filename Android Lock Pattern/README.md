@@ -19,6 +19,6 @@ sqlite> SELECT * FROM RainbowTable WHERE hash="2c3422d33fb9dd9cde87657408e48f4e6
 2c3422d33fb9dd9cde87657408e48f4e635713cb|[1, 4, 5, 2, 6, 3, 7, 8, 0]
 ```
 
-So, the pattern is [1, 4, 5, 2, 6, 3, 7, 8, 0]. According to the description it should be a number.  
-The flag is **145263780**.<br>
+The pattern is [1, 4, 5, 2, 6, 3, 7, 8, 0]. According to the description it should be a number.  
+So, The flag is **145263780**.<br>
 An easy challenge (too easy in my opinion) and worths 20 points.
