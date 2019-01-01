@@ -160,7 +160,7 @@ public void decrypt(String encryptedFile, String rawFile) throws Exception {
 Let's break it down a bit.<br>
 First, in the constructor of the class a IV (which is an 16 zeros according to **getIV**) and akey generated from the given password (which we know already). The password seems to be a SHA-256 of the "mcsTnTld1dDn" - which is **d49af309a4c69382ff07bc6f83ba4c2595a7f086d3e5b69e119e2337cb75172d**.<br><br>
 
-After we got the key and IV, we can decrypt the file. Fortunately, the **decrypt** function exists.<br>
+After we got the key and IV, we can decrypt the file. Fortunately, the **decrypt** function exists to do it for us (without writing a new script).<br>
 So after copying the class to a new Java project, creating an instance (with "mcsTnTld1dDn") and running the **decrypt** function, it seems like an image was created.
 
 In the end, the flag is **BullShitR4ns0mW4re**. Cool challenge which worths 35 points.
