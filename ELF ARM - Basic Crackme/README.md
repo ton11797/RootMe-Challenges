@@ -1,5 +1,8 @@
 # ELF ARM - Basic Crackme
 https://www.root-me.org/en/Challenges/Cracking/ELF-ARM-basic-crackme
+```
+Get the validation password.
+```
 
 We can run the binary in a QEMU emulator, but let's try to reverse it statically.<br><br>
 
