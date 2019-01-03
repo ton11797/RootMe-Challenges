@@ -110,6 +110,78 @@ The loop's condition is ```fp-28 != 31```, and in each iteration the following s
   <li>The **fp-28** value is increased by 1.</li>
 </ol>
 
-So, basically the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_' is stored somewhere (not that important in my opinion) in **fp-32**.<br>
+So, basically the string ```ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^``` is stored somewhere (not important in my opinion) in **fp-32**.<br>
+```asm
+0x000083a8 <+280>:	ldr	r3, [r11, #-32]
+0x000083ac <+284>:	add	r3, r3, #12
+0x000083b0 <+288>:	ldr	r2, [r3]
+0x000083b4 <+292>:	ldr	r3, [r11, #-28]
+0x000083b8 <+296>:	add	r2, r2, r3
+0x000083bc <+300>:	mov	r3, #0
+0x000083c0 <+304>:	strb	r3, [r2]
+0x000083c4 <+308>:	mov	r3, #0
+0x000083c8 <+312>:	str	r3, [r11, #-28]
+0x000083cc <+316>:	b	0x8420 <main+400>
+```
 
+This block is pretty basic as well.<br>
+It sets the last byte of the string ```ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^``` to 0 (NULL terminator), sets **fp-28** to 0 and jumps to the next block.<br><br>
 
+The next block (again) is a loop:
+```asm
+0x000083d0 <+320>:	ldr	r3, [r11, #-44]	; 0x2c
+0x000083d4 <+324>:	add	r3, r3, #4
+0x000083d8 <+328>:	ldr	r2, [r3]
+0x000083dc <+332>:	ldr	r3, [r11, #-28]
+0x000083e0 <+336>:	add	r3, r2, r3
+0x000083e4 <+340>:	ldrb	r1, [r3]
+0x000083e8 <+344>:	ldr	r3, [r11, #-32]
+0x000083ec <+348>:	add	r3, r3, #12
+0x000083f0 <+352>:	ldr	r2, [r3]
+0x000083f4 <+356>:	ldr	r3, [r11, #-28]
+0x000083f8 <+360>:	add	r3, r2, r3
+0x000083fc <+364>:	ldrb	r3, [r3]
+0x00008400 <+368>:	cmp	r1, r3
+0x00008404 <+372>:	beq	0x8414 <main+388>
+0x00008408 <+376>:	mvn	r3, #0
+0x0000840c <+380>:	str	r3, [r11, #-48]	; 0x30
+0x00008410 <+384>:	b	0x8448 <main+440>
+0x00008414 <+388>:	ldr	r3, [r11, #-28]
+0x00008418 <+392>:	add	r3, r3, #1
+0x0000841c <+396>:	str	r3, [r11, #-28]
+0x00008420 <+400>:	ldr	r3, [r11, #-44]	; 0x2c  <-------------- STARTING HERE
+0x00008424 <+404>:	add	r3, r3, #4
+0x00008428 <+408>:	ldr	r2, [r3]
+0x0000842c <+412>:	ldr	r3, [r11, #-28]
+0x00008430 <+416>:	add	r3, r2, r3
+0x00008434 <+420>:	ldrb	r3, [r3]
+0x00008438 <+424>:	cmp	r3, #0
+0x0000843c <+428>:	bne	0x83d0 <main+320>
+0x00008440 <+432>:	ldr	r3, [pc, #16]	; 0x8458 <main+456>
+0x00008444 <+436>:	str	r3, [r11, #-48]	; 0x30
+```
+First, it loads the given password to R3, loads the first byte to R2, loads the generated string to R3 and loads to R3 the first byte.<br>
+Then it compares the byte of the generated string to 0 - If it equals, then the loop will be exited.<br>
+In each iteration, ```R3 + fp-28``` byte is compared to the byte ```fp-32 + fp-28```.<br>
+If those bytes are equals, then the loop will continue (```0x00008404 <+372>:	beq	0x8414 <main+388>```). Otherwise, a jump will occur (while setting r3 to -1 or 0xffffffff) to the function epilogue. As you may guess, it's not good.<br>
+If the loop will end, R3 will be loaded with 0x539 (1337) and the function epilogue will occur. According to the description, if the loop will reach to the end (and R3 will be equal to 0x539), then the challenge is solved.<br
+
+So, basically the loop is:
+```python
+for i in range(0, len(generated_string)):
+  if password[i] != generated_string:
+    return -1
+return 1337
+```
+<br>
+
+If we'll collect all the information we got so far, we can convert the binary operations to this python code:
+```asm
+password = argv[1]
+generated_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^'
+for i in range(0, len(generated_string)):
+  if password[i] != generated_string:
+    return -1
+return 1337
+```
+As anyone can see the password/flag should be **ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^**.
