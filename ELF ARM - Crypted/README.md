@@ -14,6 +14,6 @@ $Id: UPX 3.08 Copyright (C) 1996-2011 the UPX Team. All Rights Reserved. $
 
 Ok. So the UPX packet was used.<br>
 After downloading it (no installation needed), and after unpacking the executable using the command ```./upx -d cryptarm```, it seems that the ```arm-linux-gnueabihf-objdump -D cryptoarm``` could disassemble the executable correctly.<br>
-Now it's possible to reverse it (statically or just debugging the flow).<br><br>
+Now it's possible to reverse it (statically or just debugging it).<br><br>
 
 [To be continued]
