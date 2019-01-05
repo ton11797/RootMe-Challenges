@@ -13,10 +13,10 @@ SRC	    Source code access	                          No
 
 Challenge connection informations :
 
-Host	challenge04.root-me.org
+Host	            challenge04.root-me.org
 Protocol	    TCP
-Port	        61045
-SSH access	  ssh -p 2224 app-systeme-ch45@challenge04.root-me.org
+Port	            61045
+SSH access	    ssh -p 2224 app-systeme-ch45@challenge04.root-me.org
 Username	    app-systeme-ch45
 Password	    app-systeme-ch45
 ```
