@@ -124,7 +124,7 @@ So, basically we'll have to follow the following steps:
 </ol>
 <br>
 
-So, I wrote a python3 script which will do it. It's output is:
+So, I wrote a python3 script which will do it. Its output is:
 ```sh
 [!] Shellcode's length: 80.
 [+] Starting communicating with the service.
