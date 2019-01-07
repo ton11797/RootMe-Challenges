@@ -79,7 +79,7 @@ n
 ```
 
 Ok. So, probably we'll be able to override a _lr_ value (or something like that) in the stack.<br>
-Luckily, most of the function prologs pushing the _lr_ value, in order to call other functions.<br>
+Luckily, most of the function prologs pushing the _lr_ value, in order to call other functions. And most of the function epilogues popping it back.<br>
 So, because there are calls to _scanf_ and _printf_ in the main function, the function's prolog should push the _lr_ value, and the function's epilogue should pop it, and put it in _pc_.<br>
 In fact, the **main** function does it:
 ```asm
