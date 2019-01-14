@@ -1,6 +1,5 @@
 # RootMe-Challenges
 
-## ARM Challenges
 ### System
 ### Cracking
 <ul>
@@ -9,7 +8,6 @@
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/Cracking/ELF%20ARM%20-%20Crypted">ELF ARM - Crypted</a></li>
 </li>
 
-## Android Challenges
 ### Forensic
 <ul>
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/Forensic/Ransomware%20Android">Ransomware Android</a></li>
