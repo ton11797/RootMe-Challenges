@@ -3,7 +3,6 @@ import struct
 import time
 
 def send(sock, msg):
-    global buffer_len
     try:
         sock.send(msg)
         time.sleep(2)
@@ -23,7 +22,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('challenge04.root-me.org', 61045))
 time.sleep(2)
 
-resp = sock.recv(buffer_len)
+resp = sock.recv(1024)
 if 'Give me data to dump' not in resp.decode():
     print('[-] Failed to get the initial message.')
     exit(1)
