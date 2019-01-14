@@ -17,7 +17,7 @@ Challenge connection informations :
 Host	        challenge04.root-me.org
 Protocol	SSH
 Port	        2224
-SSH access 	ssh -p 2224 app-systeme-ch46@challenge04.root-me.org     WebSSH
+SSH access 	ssh -p 2224 app-systeme-ch46@challenge04.root-me.org    
 Username	app-systeme-ch46
 Password	app-systeme-ch46
 ```
