@@ -10,6 +10,16 @@
 </ul>
 
 ## Android
+### Cracking
+<ul>
+  <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/Cracking/APK%20-%20Anti-debug">APK - Anti-debug</a></li>
+</ul>
+
+### Cryptanalysis
+<ul>
+  <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/Cryptanalysis/Android%20Lock%20Pattern">Android Lock Pattern</a></li>
+</ul>
+
 ### Forensic
 <ul>
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/Forensic/Ransomware%20Android">Ransomware Android</a></li>
