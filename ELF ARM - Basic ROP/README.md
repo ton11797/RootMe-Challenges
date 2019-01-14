@@ -1,5 +1,5 @@
 # ELF ARM - Basic ROP
-https://www.root-me.org/en/Challenges/App-System/ELF-ARM-Basic-ROP?action_solution=voir&debut_affiche_solutions=1#pagination_affiche_solutions
+https://www.root-me.org/en/Challenges/App-System/ELF-ARM-Basic-ROP
 ```
 Pwn the binary, read the flag in .passwd.
 
