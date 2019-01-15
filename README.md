@@ -1,13 +1,5 @@
 # RootMe-Challenges
 
-## ELF x86
-### System
-<ul>
-  <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%201">ELF x86 - Stack buffer overflow basic 1</a></li>
-  <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%202">ELF x86 - Stack buffer overflow basic 2</a></li>
-</ul>
-
-
 ## ARM
 ### System
 <ul>
