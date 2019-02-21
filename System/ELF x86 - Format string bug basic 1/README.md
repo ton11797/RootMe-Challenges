@@ -14,7 +14,7 @@ SRC 	Source code access 	                 Yes
 
 Challenge connection informations :
 
-Host	        challenge04.root-me.org
+Host	        challenge02.root-me.org
 Protocol	SSH
 Port	        2222
 SSH access 	ssh -p 2222 app-systeme-ch5@challenge02.root-me.org  
