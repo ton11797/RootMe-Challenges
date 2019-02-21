@@ -1,8 +1,6 @@
 # ELF x86 - Race condition
 https://www.root-me.org/en/Challenges/App-System/ELF-x86-Race-condition
 ```
-Pwn the binary, read the flag in .passwd.
-
 Environment configuration :
 PIE 	Position Independent Executable 	 No 
 RelRO 	Read Only relocations 	                 No 
