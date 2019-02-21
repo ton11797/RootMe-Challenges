@@ -1,5 +1,5 @@
 # ELF x64 - Stack buffer overflow - basic
-https://www.root-me.org/en/Challenges/App-System/ELF-x64-Stack-buffer-overflow-basic?action_solution=voir#ancre_solution
+https://www.root-me.org/en/Challenges/App-System/ELF-x64-Stack-buffer-overflow-basic
 ```
 Pwn the binary, read the flag in .passwd.
 
