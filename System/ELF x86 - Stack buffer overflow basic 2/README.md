@@ -1,8 +1,6 @@
 # ELF x86 - Stack buffer overflow basic 2
 https://www.root-me.org/en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-2
 ```
-Pwn the binary, read the flag in .passwd.
-
 Environment configuration :
 PIE 	Position Independent Executable 	 No 
 RelRO 	Read Only relocations 	                 No 
