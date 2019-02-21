@@ -1,7 +1,6 @@
 # ELF x86 - Stack buffer overflow basic 3 
 https://www.root-me.org/en/Challenges/App-System/ELF32-Stack-buffer-overflow-basic-3
 ```
-
 Environment configuration :
 PIE 	Position Independent Executable 	 No 
 RelRO 	Read Only relocations 	                 Yes 
