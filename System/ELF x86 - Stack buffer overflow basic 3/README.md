@@ -31,5 +31,4 @@ Enter your name: id
 uid=1116(app-systeme-ch16) gid=1116(app-systeme-ch16) euid=1216(app-systeme-ch16-cracked) groups=1216(app-systeme-ch16-cracked),100(users),1116(app-systeme-ch16)
 cat .passwd
 Sm4shM3ify0uC4n
-
 ```
