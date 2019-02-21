@@ -22,7 +22,7 @@ Password	app-systeme-ch16
 ```
 The source code is available and it's pretty clear that one can control the index of the buffer (_count_) at each character entered.<br>
 The problem is that the buffer is growing upwards (to higher addresses), while the stack grows downwards (to lower addresses). So we'll not be able to overwrite the _check_ variable just like that.<br>
-Luckily, _count_ is a signed integer, which means it can be negative. So, because we can increase the count (using any character which is not '\x08') and **decrease** it (using the '\x08' character). 
+Luckily, _count_ is a signed integer, which means it can be negative. So, because we can increase the count (using any character which is not '\x08') and **decrease** it (using the '\x08' character).<br>
 After trying to decrease count to -4 so _buffer[count]_ will point to _check_ (hopefully), one can get the following output:
 
 ```sh
