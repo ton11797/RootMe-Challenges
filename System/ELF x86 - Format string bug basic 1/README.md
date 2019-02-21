@@ -1,8 +1,6 @@
 # ELF x86 - Format string bug basic 1
 https://www.root-me.org/en/Challenges/App-System/ELF-x86-Format-string-bug-basic-1
 ```
-Pwn the binary, read the flag in .passwd.
-
 Environment configuration :
 PIE 	Position Independent Executable 	 No 
 RelRO 	Read Only relocations 	                 No 
