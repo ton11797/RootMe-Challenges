@@ -19,8 +19,7 @@ SSH access 	ssh -p 2222 app-systeme-ch33@challenge02.root-me.org
 Username	app-systeme-ch33
 Password	app-systeme-ch33
 ```
-According to the source code (and the executable itself), the program will get an argument (_message_) from the command line, and will print it.<br>
-The _message_ buffer is 20 bytes long, and there is a use of **strcpy** with no boundary check.<br><br>
+According to the source code (and the executable itself), the program will get an argument (_message_) from the command line, and will print it. The _message_ buffer is 20 bytes long, and there is a use of **strcpy** with no boundary check.<br><br>
 
 So first thing first, the offset which breaks the program need to be found. After few tries:
 ```gdb
