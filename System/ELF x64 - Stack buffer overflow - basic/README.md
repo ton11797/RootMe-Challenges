@@ -12,10 +12,10 @@ SRC 	Source code access 	                 Yes
 
 Challenge connection informations :
 
-Host	        challenge02.root-me.org
+Host	        challenge03.root-me.org
 Protocol	SSH
 Port	        2223
-SSH access 	ssh -p 2223 app-systeme-ch35@challenge02.root-me.org   
+SSH access 	ssh -p 2223 app-systeme-ch35@challenge03.root-me.org   
 Username	app-systeme-ch35
 Password	app-systeme-ch35
 ```
