@@ -10,6 +10,7 @@
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Race%20condition">ELF x86 - Race condition</a></li>
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%203">ELF x86 - Stack buffer overflow basic 3</a></li>
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20BSS%20buffer%20overflow">ELF x86 - BSS buffer overflow</a></li>
+    <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%204">ELF x86 - Stack buffer overflow basic 4</a></li>
   <li><a href="https://github.com/galbarak4/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%206">ELF x86 - Stack buffer overflow basic 6</a></li>
   
 </ul>
