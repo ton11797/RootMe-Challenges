@@ -49,7 +49,7 @@ In fact, the _DDDD_ overwrites the MyStringFormatter object's vtable entry of th
 So because the SSP is on (so we cannot overwrite the _eip_), and because the _MyStringFormatter::display()_ function is called at the end of the program, we can overwrite its vtable entry and control the _eip_.<br><br>
 
 Here is the _MyStringFormatter::display()_ call:
-```c++
+```asm
    0x08048a02 <+0>:	push   %ebp
    0x08048a03 <+1>:	mov    %esp,%ebp
    0x08048a05 <+3>:	sub    $0x18,%esp
