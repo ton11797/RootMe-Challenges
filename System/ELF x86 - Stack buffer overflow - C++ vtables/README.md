@@ -110,5 +110,5 @@ String to convert:
 id
 uid=1120(app-systeme-ch20) gid=1120(app-systeme-ch20) euid=1220(app-systeme-ch20-cracked) groups=1220(app-systeme-ch20-cracked),100(users),1120(app-systeme-ch20)
 cat .passwd
-!!FunW1ThVT4bleS!?
+<censored>
 ```
