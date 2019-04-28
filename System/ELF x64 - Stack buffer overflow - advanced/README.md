@@ -317,7 +317,7 @@ Hex result: 41414141414141414141414141414141414141414141414141414141414141414141
 id
 uid=1234(app-systeme-ch34-cracked) gid=1134(app-systeme-ch34) groups=1134(app-systeme-ch34),100(users)
 cat .passwd
-BufFErOvErFlOw-In-64-BiTs
+<censored>
 ```
 
 
