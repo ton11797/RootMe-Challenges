@@ -76,7 +76,7 @@ Hello AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 id
 uid=1135(app-systeme-ch35) gid=1135(app-systeme-ch35) euid=1235(app-systeme-ch35-cracked) groups=1135(app-systeme-ch35),100(users)
 cat .passwd
-B4sicBufferOverflowExploitation
+<censored>
 ```
 
 
