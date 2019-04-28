@@ -92,5 +92,5 @@ app-systeme-ch8@challenge02:~$ ./ch8
 $ id
 uid=1108(app-systeme-ch8) gid=1108(app-systeme-ch8) euid=1208(app-systeme-ch8-cracked) groups=1208(app-systeme-ch8-cracked),100(users),1108(app-systeme-ch8)
 $ cat .passwd
-s2$srAkdAq18q
+<censored>
 ```
