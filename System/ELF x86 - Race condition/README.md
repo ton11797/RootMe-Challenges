@@ -32,7 +32,7 @@ cat: /tmp/tmp_file.txt: No such file or directory
 [4]   Done                    ./ch12
 app-systeme-ch12@challenge02:~$ ./ch12 & cat /tmp/tmp_file.txt
 [6] 32039
-eh-q8dEa8q19f9aF()"2a96q92
+<censored>
 [5]   Done                    ./ch12
 ```
 
