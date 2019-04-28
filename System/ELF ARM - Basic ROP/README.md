@@ -318,6 +318,6 @@ Payload is:
 id
 uid=1246(app-systeme-ch46-cracked) gid=1146(app-systeme-ch46) groups=1146(app-systeme-ch46),100(users)
 cat .passwd
-ARM_b4by_ROP_to_warm_up
+<censored>
 ```
 
