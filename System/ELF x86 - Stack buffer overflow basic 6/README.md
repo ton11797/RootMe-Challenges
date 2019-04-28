@@ -88,7 +88,7 @@ Your message: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3��DDDDL]��
 $ id
 uid=1133(app-systeme-ch33) gid=1133(app-systeme-ch33) euid=1233(app-systeme-ch33-cracked) groups=1233(app-systeme-ch33-cracked),100(users),1133(app-systeme-ch33)
 $ cat .passwd
-R3t2l1bcISnicet0o!
+<censored>
 $ exit
 Segmentation fault
 ```
