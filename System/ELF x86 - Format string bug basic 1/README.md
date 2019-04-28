@@ -31,4 +31,4 @@ app-systeme-ch5@challenge02:~$ ./ch5 `python -c "print '%08x,'*14"`
 ```
 
 The end of the output looks suspicious. If we'll convert the last 4 words we should get "9apD()6dmapEd".<br>
-And if we'll convert it to big-endian format (as it should be - the memory saves the bytes in little endian) then we should get the flag "Dpa9d6)(Epamd".
+And if we'll convert it to big-endian format (as it should be - the memory saves the bytes in little endian) then we should get the flag.
