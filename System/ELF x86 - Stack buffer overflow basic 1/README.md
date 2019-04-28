@@ -47,6 +47,6 @@ Opening your shell...
 id
 uid=1113(app-systeme-ch13) gid=1113(app-systeme-ch13) euid=1213(app-systeme-ch13-cracked) groups=1213(app-systeme-ch13-cracked),100(users),1113(app-systeme-ch13)
 cat .passwd
-1w4ntm0r3pr0np1s
+<censored>
 ```
 (The _cat_ and the '-' are used for keeping the shell open)
