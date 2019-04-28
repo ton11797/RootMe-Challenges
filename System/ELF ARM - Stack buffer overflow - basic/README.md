@@ -131,5 +131,5 @@ So, I wrote a python3 script which will do it. Its output is:
 [+] Found stack offset - 0xbee0fc58.
 [+] Preparing the shellcode
 [+] The shellcode sent to the remote service.
-[+] Flag: 0v3rfl0wing_buff3rs_l1k3_4_b0ss!.
+[+] Flag: <censored>.
 ```
