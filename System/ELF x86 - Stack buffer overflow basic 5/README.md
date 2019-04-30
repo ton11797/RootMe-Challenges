@@ -93,6 +93,7 @@ $1 = (char (*)[513]) 0xbffff873
 (gdb) x $ebp+8
 0xbffffb20:	0xbffffb30
 ```
+Note: The ```r.sh``` is a script from [here](https://github.com/hellman/fixenv) by [hellman](https://github.com/hellman/) which fixes the memory mismatch between inside and outside of gdb/strace/ltrace when there is no ASLR.<br><br>
 So adding those addresses to the exploit will result in the following output:
 ```sh
 $ id
