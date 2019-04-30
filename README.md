@@ -14,6 +14,7 @@
   <li><a href="https://github.com/s1syphu5/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%206">ELF x86 - Stack buffer overflow basic 6</a></li>
   <li><a href="https://github.com/s1syphu5/RootMe-Challenges/blob/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20-%20C++%20vtables/README.md">ELF x86 - Stack buffer overflow - C++ vtables</a></li>
   <li><a href="https://github.com/s1syphu5/RootMe-Challenges/blob/master/System/ELF%20x86%20-%20Stack%20buffer%20and%20integer%20overflow/">ELF x86 - Stack buffer and integer overflow</a></li> 
+  <li><a href="https://github.com/s1syphu5/RootMe-Challenges/tree/master/System/ELF%20x86%20-%20Stack%20buffer%20overflow%20basic%205">ELF x86 - Stack buffer overflow basic 5</a></li> 
  <li><a href="https://github.com/s1syphu5/RootMe-Challenges/tree/master/System/ELF%20x64%20-%20Stack%20buffer%20overflow%20-%20advanced">ELF x64 - Stack buffer overflow - advanced</a></li> 
 </ul>
 
