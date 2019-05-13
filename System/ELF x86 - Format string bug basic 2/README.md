@@ -2,20 +2,20 @@
 https://www.root-me.org/en/Challenges/App-System/ELF-x86-Format-string-bug-basic-2
 ```
 Environment configuration :
-PIE 	Position Independent Executable 	 No 
-RelRO 	Read Only relocations 	                 No 
-NX 	Non-Executable Stack 	                 YES 
-ASLR 	Address Space Layout Randomization 	 No 
-SF 	Source Fortification 	                 No 
-SSP 	Stack-Smashing Protection 	         No 
-SRC 	Source code access 	                 Yes 
+PIE 	Position Independent Executable 	 No
+RelRO 	Read Only relocations 	                 No
+NX 	Non-Executable Stack 	                 YES
+ASLR 	Address Space Layout Randomization 	 No
+SF 	Source Fortification 	                 No
+SSP 	Stack-Smashing Protection 	         No
+SRC 	Source code access 	                 Yes
 
 Challenge connection informations :
 
 Host	        challenge02.root-me.org
 Protocol	SSH
 Port	        2222
-SSH access 	ssh -p 2222 app-systeme-ch5@challenge02.root-me.org  
+SSH access 	ssh -p 2222 app-systeme-ch14@challenge02.root-me.org  
 Username	app-systeme-ch14
 Password	app-systeme-ch14
 ```
