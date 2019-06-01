@@ -12,7 +12,7 @@ In Android, when a pattern is set then a _gesture.key_ file is generated, with a
 After a quick search, the _gesture.key_ file's path seems to be **/data/system/gesture.key**, and it's content is **2c3422d33fb9dd9cde87657408e48f4e635713cb**.<br><br>
 
 After the hash is found, it needed to be reversed. Fortunately, someone created a "rainbow tables" for this purpose (it's actually a SQLite database containing 986328 records).<br>
-So, after getting the database (I uploaded it to this repository), running the next SQL query would find the pattern:
+So, after getting the database (uploaded to this repository), running the next SQL query would find the pattern:
 
 ```base
 sqlite> SELECT * FROM RainbowTable WHERE hash="2c3422d33fb9dd9cde87657408e48f4e635713cb";
@@ -21,4 +21,3 @@ sqlite> SELECT * FROM RainbowTable WHERE hash="2c3422d33fb9dd9cde87657408e48f4e6
 
 The pattern is [1, 4, 5, 2, 6, 3, 7, 8, 0]. According to the description it should be a number.  
 So, The flag is **145263780**.<br>
-An easy challenge (too easy in my opinion) and worths 20 points.

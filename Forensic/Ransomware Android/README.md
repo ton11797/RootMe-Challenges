@@ -1,7 +1,7 @@
 # Ransomware Android
 https://www.root-me.org/en/Challenges/Forensic/Ransomware-Android
 ```
-The CISO Android tablet has been compromised by a ransomware, his confidential documents were encrypted. It is, of course, no question for us to pay the ransom, we would lose all our credibility. 
+The CISO Android tablet has been compromised by a ransomware, his confidential documents were encrypted. It is, of course, no question for us to pay the ransom, we would lose all our credibility.
 You have a part dump of his tablet and must restore these documents.
 ```
 
@@ -120,7 +120,7 @@ public AesCrypt(String password) throws Exception {
 public AlgorithmParameterSpec getIV() {
     return new IvParameterSpec(new byte[16]);
 }
-    
+
 public void encrypt(String rawFile, String encryptedFile) throws Exception {
     FileInputStream fis = new FileInputStream(rawFile);
     FileOutputStream fos = new FileOutputStream(encryptedFile);
@@ -163,4 +163,4 @@ First, in the constructor of the class a IV (which is an 16 zeros according to *
 After we got the key and IV, we can decrypt the file. Fortunately, the **decrypt** function exists to do it for us (without writing a new script).<br>
 So after copying the class to a new Java project, creating an instance (with "mcsTnTld1dDn") and running the **decrypt** function, it seems like an image was created.
 
-In the end, the flag is **BullShitR4ns0mW4re**. Cool challenge which worths 35 points.
+In the end, the flag is **BullShitR4ns0mW4re**.

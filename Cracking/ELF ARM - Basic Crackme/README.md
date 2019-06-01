@@ -191,4 +191,3 @@ So,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;```password[4] = password[2]-2 = 0x6d = 'm'```<br><br>
 
 After a quick arrangement, the password/flag is **storms**.<br>
-Nice and basic challenge, which worths 20 points.

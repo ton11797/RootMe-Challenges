@@ -69,4 +69,3 @@ The **hashes** and **answers** arrays are
 
 It's pretty clear that we'll like to get the first item in **answers**, so we'll need to reverse the first hash in **hashes**.<br>
 Using [this site](https://md5decrypt.net/en/Sha256/), the hash could be reversed easily to **MayTheF0rceB3W1thU**.<br>
-After writing this password in the app, the app indeed displayed the _Congrats from the FortiGuard team :)_ message, and the challenge is solved (40 pts in root-me - doesn't worth it).
